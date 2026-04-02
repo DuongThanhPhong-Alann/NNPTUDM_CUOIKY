@@ -6,3 +6,6 @@ APT/
 
 # Local DB import/seed (MySQL)
 db/mysql/*.sql
+
+# Postman collections/environments (optional)
+postman/
