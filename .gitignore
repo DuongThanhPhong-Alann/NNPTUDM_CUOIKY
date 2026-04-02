@@ -4,3 +4,5 @@
 # Local source folder (do not push)
 APT/
 
+# Local DB import/seed (MySQL)
+db/mysql/*.sql

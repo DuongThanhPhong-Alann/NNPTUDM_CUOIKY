@@ -8,6 +8,7 @@
     "check:schemas": "node --check src/models/index.js",
     "db:check": "node scripts/check-db.js",
     "db:init": "node scripts/init-db.js",
+    "db:seed": "node scripts/seed-db.js",
     "dev": "node src/server.js",
     "start": "node src/server.js"
   },
