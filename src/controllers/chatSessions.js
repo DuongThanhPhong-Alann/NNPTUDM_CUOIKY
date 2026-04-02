@@ -1,0 +1,27 @@
+let ChatSession = require("../models/ChatSession");
+
+module.exports = {
+  GetAll: async function () {
+    return await ChatSession.find({}).populate("idNguoiDung");
+  },
+  GetById: async function (id) {
+    return await ChatSession.findById(id).populate("idNguoiDung");
+  },
+  Create: async function (data) {
+    let item = new ChatSession(data);
+    await item.save();
+    return await ChatSession.findById(item._id).populate("idNguoiDung");
+  },
+  UpdateById: async function (id, data) {
+    let updated = await ChatSession.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updated) return null;
+    return await ChatSession.findById(updated._id).populate("idNguoiDung");
+  },
+  DeleteById: async function (id) {
+    return await ChatSession.findByIdAndDelete(id);
+  },
+};
+
