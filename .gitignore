@@ -1,0 +1,6 @@
+# Local secrets
+.env
+
+# Local source folder (do not push)
+APT/
+
