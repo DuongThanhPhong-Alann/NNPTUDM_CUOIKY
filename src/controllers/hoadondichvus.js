@@ -7,6 +7,12 @@ module.exports = {
       .populate("idCanHo")
       .populate("idNguoiDung");
   },
+  GetAllByNguoiDung: async function (idNguoiDung) {
+    return await HoaDonDichVu.find({ idNguoiDung })
+      .populate("idDichVu")
+      .populate("idCanHo")
+      .populate("idNguoiDung");
+  },
   GetById: async function (id) {
     return await HoaDonDichVu.findById(id)
       .populate("idDichVu")

@@ -4,6 +4,9 @@ module.exports = {
   GetAll: async function () {
     return await ChatSession.find({}).populate("idNguoiDung");
   },
+  GetAllByNguoiDung: async function (idNguoiDung) {
+    return await ChatSession.find({ idNguoiDung }).populate("idNguoiDung");
+  },
   GetById: async function (id) {
     return await ChatSession.findById(id).populate("idNguoiDung");
   },
@@ -23,5 +26,11 @@ module.exports = {
   DeleteById: async function (id) {
     return await ChatSession.findByIdAndDelete(id);
   },
+  UpdateLastMessageAt: async function (id, lastMessageAt, session) {
+    return await ChatSession.findByIdAndUpdate(
+      id,
+      { lastMessageAt },
+      { new: true, session },
+    );
+  },
 };
-

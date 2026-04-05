@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 let dichVuController = require("../controllers/dichvus");
+const { requireAuth, requireRoles } = require("../middlewares/auth");
 
 router.get("/", async function (req, res, next) {
   let items = await dichVuController.GetAll();
@@ -17,7 +18,7 @@ router.get("/:id", async function (req, res, next) {
   }
 });
 
-router.post("/", async function (req, res, next) {
+router.post("/", requireAuth, requireRoles("Ban quan ly"), async function (req, res, next) {
   try {
     let item = await dichVuController.Create(req.body);
     res.send(item);
@@ -26,7 +27,7 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/:id", requireAuth, requireRoles("Ban quan ly"), async function (req, res, next) {
   try {
     let updated = await dichVuController.UpdateById(req.params.id, req.body);
     if (!updated) return res.status(404).send({ message: "id not found" });
@@ -36,7 +37,7 @@ router.put("/:id", async function (req, res, next) {
   }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", requireAuth, requireRoles("Ban quan ly"), async function (req, res, next) {
   try {
     let deleted = await dichVuController.DeleteById(req.params.id);
     if (!deleted) return res.status(404).send({ message: "id not found" });

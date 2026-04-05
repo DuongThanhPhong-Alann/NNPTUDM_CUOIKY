@@ -9,3 +9,7 @@ db/mysql/*.sql
 
 # Postman collections/environments (optional)
 postman/
+
+# Runtime uploads
+uploads/*
+!uploads/.gitkeep

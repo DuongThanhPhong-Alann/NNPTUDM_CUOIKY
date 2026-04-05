@@ -12,6 +12,12 @@ module.exports = {
     await item.save();
     return item;
   },
+  FindByEmail: async function (email) {
+    return await NguoiDung.findOne({ email: String(email).toLowerCase() });
+  },
+  FindByEmailWithPassword: async function (email) {
+    return await NguoiDung.findOne({ email: String(email).toLowerCase() }).select("+matKhau");
+  },
   UpdateById: async function (id, data) {
     return await NguoiDung.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   },
@@ -19,4 +25,3 @@ module.exports = {
     return await NguoiDung.findByIdAndDelete(id);
   },
 };
-

@@ -1,0 +1,431 @@
+POSTMAN TEST PLAN
+
+Base URL:
+http://localhost:3000
+
+Headers thuong dung:
+- Content-Type: application/json
+- Authorization: Bearer <token>
+
+Dieu kien truoc khi test:
+- Da chay server
+- File .env co JWT_SECRET
+- Da co du lieu mau hoac tao du lieu theo thu tu ben duoi
+
+Tong ket so luong truong hop test Postman:
+- Tong so endpoint/request co the test: 66
+- Cach tinh:
+  + 1 health check
+  + 4 auth
+  + 1 upload
+  + 12 nhom CRUD x 5 request = 60
+- 12 nhom CRUD gom:
+  + chungcus
+  + canhos
+  + chungcu-images
+  + canho-images
+  + nguoidungs
+  + cudans
+  + chuho
+  + tintucs
+  + dichvus
+  + hoadon-dichvus
+  + chat-sessions
+  + chat-messages
+- Neu tinh ca cac case thanh cong + that bai + phan quyen + loi du lieu thi tong so scenario test thuc te se hon 90 case.
+
+==================================================
+1. CAC NHOM CHUC NANG CO THE TEST TREN POSTMAN
+==================================================
+
+A. HEALTH CHECK
+1. GET /health
+- Muc dich: kiem tra server dang chay
+- Ket qua mong doi: 200, { ok: true }
+
+
+B. AUTHENTICATION
+1. POST /api/v1/auth/register
+- Muc dich: dang ky tai khoan cu dan
+- Body:
+{
+  "hoTen": "Nguyen Van A",
+  "email": "a@test.com",
+  "matKhau": "123456",
+  "soDienThoai": "0909000001"
+}
+- Test:
+  + Dang ky thanh cong
+  + Dang ky trung email -> 400
+  + Thieu field bat buoc -> loi
+
+2. POST /api/v1/auth/login
+- Muc dich: dang nhap lay token
+- Body:
+{
+  "email": "a@test.com",
+  "matKhau": "123456"
+}
+- Test:
+  + Dang nhap dung -> tra token
+  + Sai email -> 401
+  + Sai mat khau -> 401
+
+3. GET /api/v1/auth/me
+- Muc dich: lay thong tin user dang dang nhap
+- Header: Authorization Bearer token
+- Test:
+  + Token hop le -> tra user
+  + Khong co token -> 401
+  + Token sai -> 401
+
+4. GET /api/v1/auth/users
+- Muc dich: manager xem danh sach user
+- Header: Authorization Bearer token manager
+- Test:
+  + Manager truy cap duoc
+  + Cu dan truy cap -> 403
+
+
+C. AUTHORIZATION
+1. Test role "Ban quan ly"
+- Dung token manager goi cac route POST/PUT/DELETE cua:
+  + /api/v1/chungcus
+  + /api/v1/canhos
+  + /api/v1/chungcu-images
+  + /api/v1/canho-images
+  + /api/v1/cudans
+  + /api/v1/chuho
+  + /api/v1/tintucs
+  + /api/v1/dichvus
+  + /api/v1/hoadon-dichvus
+  + /api/v1/nguoidungs
+- Ket qua mong doi: duoc phep
+
+2. Test role "Cu dan"
+- Dung token cu dan goi lai cac route POST/PUT/DELETE tren
+- Ket qua mong doi: 403 voi cac route quan tri
+
+3. Test quyen xem va sua user
+- GET /api/v1/nguoidungs/:id
+  + User xem chinh minh -> duoc
+  + User xem nguoi khac -> 403
+- PUT /api/v1/nguoidungs/:id
+  + User sua chinh minh -> duoc
+  + User sua nguoi khac -> 403
+
+
+D. CRUD CHO CAC BANG
+
+1. ChungCu
+- GET /api/v1/chungcus
+- GET /api/v1/chungcus/:id
+- POST /api/v1/chungcus
+- PUT /api/v1/chungcus/:id
+- DELETE /api/v1/chungcus/:id
+- Body POST mau:
+{
+  "ten": "Chung cu A",
+  "diaChi": "123 Duong A",
+  "chuDauTu": "ABC Group",
+  "namXayDung": 2022,
+  "soTang": 20,
+  "moTa": "Chung cu demo"
+}
+
+2. CanHo
+- GET /api/v1/canhos
+- GET /api/v1/canhos/:id
+- POST /api/v1/canhos
+- PUT /api/v1/canhos/:id
+- DELETE /api/v1/canhos/:id
+- Body POST mau:
+{
+  "maCan": "A101",
+  "idChungCu": "<chungCuId>",
+  "dienTich": 75,
+  "soPhong": 2,
+  "gia": 1500000000,
+  "trangThai": "Dang ban",
+  "moTa": "Can ho demo",
+  "urls": []
+}
+
+3. ChungCuImage
+- GET /api/v1/chungcu-images
+- GET /api/v1/chungcu-images/:id
+- POST /api/v1/chungcu-images
+- PUT /api/v1/chungcu-images/:id
+- DELETE /api/v1/chungcu-images/:id
+- Body POST mau:
+{
+  "idChungCu": "<chungCuId>",
+  "duongDan": "/uploads/demo-building.jpg"
+}
+
+4. CanHoImage
+- GET /api/v1/canho-images
+- GET /api/v1/canho-images/:id
+- POST /api/v1/canho-images
+- PUT /api/v1/canho-images/:id
+- DELETE /api/v1/canho-images/:id
+- Body POST mau:
+{
+  "idCanHo": "<canHoId>",
+  "duongDan": "/uploads/demo-apartment.jpg"
+}
+
+5. NguoiDung
+- GET /api/v1/nguoidungs
+- GET /api/v1/nguoidungs/:id
+- POST /api/v1/nguoidungs
+- PUT /api/v1/nguoidungs/:id
+- DELETE /api/v1/nguoidungs/:id
+- Body POST mau:
+{
+  "hoTen": "Tran Thi B",
+  "email": "b@test.com",
+  "matKhau": "123456",
+  "soDienThoai": "0909000002",
+  "loaiNguoiDung": "Cu dan"
+}
+
+6. CuDan
+- GET /api/v1/cudans
+- GET /api/v1/cudans/:id
+- POST /api/v1/cudans
+- PUT /api/v1/cudans/:id
+- DELETE /api/v1/cudans/:id
+- Body POST mau:
+{
+  "idNguoiDung": "<nguoiDungId>",
+  "idCanHo": "<canHoId>",
+  "idChungCu": "<chungCuId>"
+}
+
+7. ChuHo
+- GET /api/v1/chuho
+- GET /api/v1/chuho/:id
+- POST /api/v1/chuho
+- PUT /api/v1/chuho/:id
+- DELETE /api/v1/chuho/:id
+- Body POST mau:
+{
+  "idCuDan": "<cuDanId>",
+  "idCanHo": "<canHoId>",
+  "idChungCu": "<chungCuId>",
+  "ghiChu": "Chu ho can A101"
+}
+
+8. TinTuc
+- GET /api/v1/tintucs
+- GET /api/v1/tintucs/:id
+- POST /api/v1/tintucs
+- PUT /api/v1/tintucs/:id
+- DELETE /api/v1/tintucs/:id
+- Body POST mau:
+{
+  "tieuDe": "Thong bao demo",
+  "noiDung": "Noi dung demo",
+  "hinhAnh": "/uploads/news.jpg"
+}
+
+9. DichVu
+- GET /api/v1/dichvus
+- GET /api/v1/dichvus/:id
+- POST /api/v1/dichvus
+- PUT /api/v1/dichvus/:id
+- DELETE /api/v1/dichvus/:id
+- Body POST mau:
+{
+  "tenDichVu": "Gui xe",
+  "moTa": "Phi gui xe thang",
+  "donGia": 150000,
+  "donViTinh": "thang",
+  "trangThai": true
+}
+
+10. HoaDonDichVu
+- GET /api/v1/hoadon-dichvus
+- GET /api/v1/hoadon-dichvus/:id
+- POST /api/v1/hoadon-dichvus
+- PUT /api/v1/hoadon-dichvus/:id
+- DELETE /api/v1/hoadon-dichvus/:id
+- Body POST mau:
+{
+  "idDichVu": "<dichVuId>",
+  "idCanHo": "<canHoId>",
+  "idNguoiDung": "<nguoiDungId>",
+  "kyThanhToan": "2026-04",
+  "soLuong": 1,
+  "donGia": 150000,
+  "hanThanhToan": "2026-04-30T00:00:00.000Z",
+  "trangThai": "Chua thanh toan",
+  "ghiChu": "Hoa don thang 4"
+}
+
+
+E. UPLOAD
+1. POST /api/v1/upload
+- Header: Authorization Bearer token manager
+- Body: form-data
+  + key: file
+  + type: File
+- Test:
+  + Upload thanh cong -> 201
+  + Khong co file -> 400
+  + Cu dan upload -> 403
+  + Khong token -> 401
+
+
+F. TRANSACTION
+1. POST /api/v1/chat-messages
+- Route nay co transaction
+- Chuc nang:
+  + Tao chat message
+  + Cap nhat lastMessageAt trong ChatSession
+  + Neu loi se rollback
+- Body:
+{
+  "idSession": "<chatSessionId>",
+  "role": "user",
+  "content": "Xin chao",
+  "model": "manual"
+}
+- Test:
+  + Tao message thanh cong
+  + Session khong ton tai -> 404
+  + User gui vao session khong phai cua minh -> 403
+
+
+G. SOCKET CHAT
+1. Tao chat session
+- POST /api/v1/chat-sessions
+- Body:
+{
+  "tieuDe": "Ho tro can ho",
+  "tags": ["support"]
+}
+
+2. Lay chat sessions
+- GET /api/v1/chat-sessions
+- Test:
+  + Manager thay tat ca
+  + Cu dan chi thay session cua minh
+
+3. Lay chat messages theo session
+- GET /api/v1/chat-messages?idSession=<chatSessionId>
+- Test:
+  + Manager xem duoc
+  + Cu dan chi xem session cua minh
+  + Cu dan khong truyen idSession -> 400
+
+4. Test Socket.IO
+- Ket noi socket den server
+- Gui token qua auth handshake
+- Emit event: chat:join voi sessionId
+- Sau do goi HTTP POST /api/v1/chat-messages
+- Ket qua mong doi: nhan event chat:message
+
+
+H. CAC CASE LOI QUAN TRONG NEN TEST
+1. Khong gui token -> 401
+2. Token sai -> 401
+3. Role khong du quyen -> 403
+4. Id khong ton tai -> 404
+5. Body thieu field required -> 400
+6. Email trung -> 400
+7. Tao can ho trung maCan trong cung chung cu -> loi
+8. Tao hoa don dich vu trung idCanHo + idDichVu + kyThanhToan -> loi
+9. Upload khong co file -> 400
+10. Login sai mat khau -> 401
+
+
+==================================================
+2. THU TU TEST DE KHONG BI THIEU DU LIEU
+==================================================
+1. GET /health
+2. POST /api/v1/auth/register
+3. POST /api/v1/auth/login
+4. Tao ChungCu
+5. Tao CanHo
+6. Tao NguoiDung neu can
+7. Tao CuDan
+8. Tao ChuHo
+9. Upload file
+10. Tao ChungCuImage / CanHoImage
+11. Tao TinTuc
+12. Tao DichVu
+13. Tao HoaDonDichVu
+14. Tao ChatSession
+15. Tao ChatMessage
+16. Test socket chat
+
+
+==================================================
+3. CHIA CHO 4 NGUOI
+==================================================
+
+1. Phong
+- Chiu trach nhiem:
+  + ChungCu
+  + CanHo
+  + NguoiDung
+  + Authorization cho cac route CRUD quan tri
+- Postman can demo:
+  + /api/v1/chungcus
+  + /api/v1/canhos
+  + /api/v1/nguoidungs
+  + Cac case manager duoc phep CRUD
+
+2. Minh Hieu
+- Chiu trach nhiem:
+  + ChatSession
+  + ChatMessage
+  + Transaction
+  + Socket chat
+- Postman can demo:
+  + /api/v1/chat-sessions
+  + /api/v1/chat-messages
+  + Case transaction khi tao message
+  + Case socket event chat:message
+
+3. Tuong Vy
+- Chiu trach nhiem:
+  + Authentication
+  + Authorization
+  + CuDan
+  + ChuHo
+  + DichVu
+  + HoaDonDichVu
+- Postman can demo:
+  + /api/v1/auth/register
+  + /api/v1/auth/login
+  + /api/v1/auth/me
+  + /api/v1/auth/users
+  + /api/v1/cudans
+  + /api/v1/chuho
+  + /api/v1/dichvus
+  + /api/v1/hoadon-dichvus
+
+4. Ve Quang
+- Chiu trach nhiem:
+  + Upload
+  + ChungCuImage
+  + CanHoImage
+  + TinTuc
+- Postman can demo:
+  + /api/v1/upload
+  + /api/v1/chungcu-images
+  + /api/v1/canho-images
+  + /api/v1/tintucs
+
+
+==================================================
+4. GOI Y CHIA DUNG 4 NGUOI
+==================================================
+Chia chinh thuc cho 4 nguoi:
+- Phong: chungcu + canho + nguoidung + phan quyen CRUD quan tri
+- Minh Hieu: chat + transaction + socket
+- Tuong Vy: auth + authorization + cudan + chuho + dichvu + hoadon dichvu
+- Ve Quang: upload + hinh anh + tin tuc
