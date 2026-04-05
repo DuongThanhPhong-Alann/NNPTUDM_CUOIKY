@@ -54,7 +54,7 @@ router.delete("/:id", requireAuth, requireRoles("Ban quan ly"), async function (
   try {
     let deleted = await hoaDonDichVuController.DeleteById(req.params.id);
     if (!deleted) return res.status(404).send({ message: "id not found" });
-    res.send(deleted);
+    res.send({ message: "xoa thanh cong" });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
