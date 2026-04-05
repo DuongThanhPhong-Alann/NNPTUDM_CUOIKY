@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "MongoDB (Mongoose) schemas for APT-CONNECT rewrite",
-  "main": "src/models/index.js",
+  "main": "src/schemas/index.js",
   "scripts": {
-    "check:schemas": "node --check src/models/index.js",
+    "check:schemas": "node --check src/schemas/index.js",
     "db:check": "node scripts/check-db.js",
     "db:init": "node scripts/init-db.js",
     "db:seed": "node scripts/seed-db.js",

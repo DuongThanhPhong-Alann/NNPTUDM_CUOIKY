@@ -1,4 +1,4 @@
-let CanHo = require("../models/CanHo");
+let CanHo = require("../schemas/CanHo");
 
 module.exports = {
   GetAll: async function () {

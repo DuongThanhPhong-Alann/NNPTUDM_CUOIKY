@@ -2,12 +2,12 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 const { connectMongo } = require("../src/db/connect");
-const models = require("../src/models");
+const schemas = require("../src/schemas");
 
 async function main() {
   const connection = await connectMongo();
 
-  const modelList = Object.entries(models);
+  const modelList = Object.entries(schemas);
 
   for (const [name, model] of modelList) {
     await model.createCollection();
@@ -34,4 +34,3 @@ main().catch(async (err) => {
   }
   process.exitCode = 1;
 });
-

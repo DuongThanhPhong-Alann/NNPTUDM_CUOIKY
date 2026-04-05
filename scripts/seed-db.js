@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 const { connectMongo } = require("../src/db/connect");
-const models = require("../src/models");
+const schemas = require("../src/schemas");
 
 const {
   ChungCu,
@@ -13,7 +13,7 @@ const {
   CuDan,
   ChuHo,
   TinTuc,
-} = models;
+} = schemas;
 
 function toDecimal128(value) {
   if (value === null || value === undefined) return undefined;
@@ -21,7 +21,7 @@ function toDecimal128(value) {
 }
 
 async function ensureCollections() {
-  const modelList = Object.entries(models);
+  const modelList = Object.entries(schemas);
   for (const [name, model] of modelList) {
     await model.createCollection();
     await model.syncIndexes().catch(() => undefined);
@@ -445,4 +445,3 @@ main().catch(async (err) => {
   }
   process.exitCode = 1;
 });
-

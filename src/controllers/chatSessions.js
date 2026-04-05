@@ -1,4 +1,4 @@
-let ChatSession = require("../models/ChatSession");
+let ChatSession = require("../schemas/ChatSession");
 
 module.exports = {
   GetAll: async function () {

@@ -9,4 +9,6 @@ module.exports = {
   TinTuc: require("./TinTuc"),
   ChatSession: require("./ChatSession"),
   ChatMessage: require("./ChatMessage"),
+  DichVu: require("./DichVu"),
+  HoaDonDichVu: require("./HoaDonDichVu"),
 };

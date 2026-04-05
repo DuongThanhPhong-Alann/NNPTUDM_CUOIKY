@@ -1,4 +1,4 @@
-let NguoiDung = require("../models/NguoiDung");
+let NguoiDung = require("../schemas/NguoiDung");
 
 module.exports = {
   GetAll: async function () {

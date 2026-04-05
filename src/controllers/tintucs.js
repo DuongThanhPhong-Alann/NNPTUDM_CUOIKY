@@ -1,4 +1,4 @@
-let TinTuc = require("../models/TinTuc");
+let TinTuc = require("../schemas/TinTuc");
 
 module.exports = {
   GetAll: async function () {

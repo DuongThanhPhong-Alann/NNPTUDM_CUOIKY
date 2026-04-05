@@ -1,4 +1,4 @@
-let CuDan = require("../models/CuDan");
+let CuDan = require("../schemas/CuDan");
 
 module.exports = {
   GetAll: async function () {

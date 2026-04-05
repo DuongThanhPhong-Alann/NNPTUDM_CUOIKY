@@ -1,4 +1,4 @@
-let ChungCu = require("../models/ChungCu");
+let ChungCu = require("../schemas/ChungCu");
 
 module.exports = {
   GetAll: async function () {

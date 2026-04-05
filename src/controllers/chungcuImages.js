@@ -1,4 +1,4 @@
-let ChungCuImage = require("../models/ChungCuImage");
+let ChungCuImage = require("../schemas/ChungCuImage");
 
 module.exports = {
   GetAll: async function () {

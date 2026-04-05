@@ -1,4 +1,4 @@
-let ChuHo = require("../models/ChuHo");
+let ChuHo = require("../schemas/ChuHo");
 
 module.exports = {
   GetAll: async function () {

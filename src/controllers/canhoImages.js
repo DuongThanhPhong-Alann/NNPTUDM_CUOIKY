@@ -1,4 +1,4 @@
-let CanHoImage = require("../models/CanHoImage");
+let CanHoImage = require("../schemas/CanHoImage");
 
 module.exports = {
   GetAll: async function () {

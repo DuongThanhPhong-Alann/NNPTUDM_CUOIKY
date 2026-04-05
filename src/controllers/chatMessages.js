@@ -1,4 +1,4 @@
-let ChatMessage = require("../models/ChatMessage");
+let ChatMessage = require("../schemas/ChatMessage");
 
 module.exports = {
   GetAll: async function () {
