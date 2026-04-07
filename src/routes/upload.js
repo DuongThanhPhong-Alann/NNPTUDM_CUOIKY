@@ -1,5 +1,5 @@
 const express = require("express");
-const { upload } = require("../middlewares/upload");
+const { imageUpload, getUploadedFile } = require("../middlewares/upload");
 const { requireAuth, requireRoles } = require("../middlewares/auth");
 
 const router = express.Router();
@@ -8,18 +8,20 @@ router.post(
   "/",
   requireAuth,
   requireRoles("Ban quan ly"),
-  upload.single("file"),
+  imageUpload,
   function (req, res) {
-    if (!req.file) {
+    const file = getUploadedFile(req);
+
+    if (!file) {
       return res.status(400).send({ message: "file is required" });
     }
 
     return res.status(201).send({
-      filename: req.file.filename,
-      originalname: req.file.originalname,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-      url: `/uploads/${req.file.filename}`,
+      filename: file.filename,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size,
+      url: `/uploads/${file.filename}`,
     });
   },
 );

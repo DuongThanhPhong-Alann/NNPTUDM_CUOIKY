@@ -38,7 +38,4 @@ module.exports = {
       .populate("idCanHo")
       .populate("idNguoiDung");
   },
-  DeleteById: async function (id) {
-    return await HoaDonDichVu.findByIdAndDelete(id);
-  },
 };

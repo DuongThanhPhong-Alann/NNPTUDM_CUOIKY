@@ -50,14 +50,4 @@ router.put("/:id", requireAuth, requireRoles("Ban quan ly"), async function (req
   }
 });
 
-router.delete("/:id", requireAuth, requireRoles("Ban quan ly"), async function (req, res, next) {
-  try {
-    let deleted = await hoaDonDichVuController.DeleteById(req.params.id);
-    if (!deleted) return res.status(404).send({ message: "id not found" });
-    res.send({ message: "xoa thanh cong" });
-  } catch (err) {
-    res.status(400).send({ message: err.message });
-  }
-});
-
 module.exports = router;

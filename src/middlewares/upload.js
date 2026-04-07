@@ -17,5 +17,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+const imageUpload = upload.fields([
+  { name: "file", maxCount: 1 },
+  { name: "File", maxCount: 1 },
+]);
 
-module.exports = { upload, uploadDir };
+function getUploadedFile(req) {
+  if (req.file) return req.file;
+  if (req.files && req.files.file && req.files.file[0]) return req.files.file[0];
+  if (req.files && req.files.File && req.files.File[0]) return req.files.File[0];
+  return null;
+}
+
+module.exports = { upload, uploadDir, imageUpload, getUploadedFile };
